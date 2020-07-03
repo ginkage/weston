@@ -596,6 +596,12 @@ struct weston_output {
 			    struct weston_head *head);
 
 	bool unavailable;
+	bool freezing;
+
+	bool fixed_position;
+	bool fixed_size;
+
+	double down_scale;
 };
 #define weston_output_valid(o) \
 	((o) && !(o)->destroying && !(o)->unavailable)
@@ -1517,6 +1523,7 @@ struct weston_compositor {
 	} output_capture;
 
 	enum weston_output_flow output_flow;
+	struct weston_output *prefer_output;
 };
 
 struct weston_solid_buffer_values {
