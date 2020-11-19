@@ -4253,6 +4253,9 @@ weston_view_set_initial_position(struct weston_view *view,
 	}
 
 	wl_list_for_each(output, &compositor->output_list, link) {
+		if (output->unavailable)
+			continue;
+
 		if (weston_output_contains_point(output, ix, iy)) {
 			target_output = output;
 			break;
