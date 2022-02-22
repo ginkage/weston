@@ -4043,6 +4043,10 @@ weston_surface_commit(struct weston_surface *surface)
 
 	weston_surface_commit_subsurface_order(surface);
 
+	/* HACK: Assign outputs */
+	if (!surface->output_mask)
+		weston_compositor_build_view_list(surface->compositor, NULL);
+
 	weston_surface_schedule_repaint(surface);
 }
 
