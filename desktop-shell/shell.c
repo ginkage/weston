@@ -2626,6 +2626,10 @@ panel_committed(struct weston_surface *es, int32_t sx, int32_t sy)
 
 	view = container_of(es->views.next, struct weston_view, surface_link);
 
+	/* The output might be unavaiable */
+	if (!view->output)
+		return;
+
 	get_panel_size(shell, view, &width, &height);
 	switch (shell->panel_position) {
 	case WESTON_DESKTOP_SHELL_PANEL_POSITION_TOP:
@@ -3937,6 +3941,8 @@ check_desktop_shell_crash_too_early(struct desktop_shell *shell)
 	if (clock_gettime(CLOCK_MONOTONIC, &now) < 0)
 		return false;
 
+	/* HACK: The shell might be crashed too early when hotplugging */
+#if 0
 	/*
 	 * If the shell helper client dies before the session has been
 	 * up for roughly 30 seconds, better just make Weston shut down,
@@ -3952,6 +3958,7 @@ check_desktop_shell_crash_too_early(struct desktop_shell *shell)
 
 		return true;
 	}
+#endif
 
 	return false;
 }
