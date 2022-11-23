@@ -2752,6 +2752,10 @@ choose_texture_target(struct gl_renderer *gr,
 {
 	struct dmabuf_format *tmp, *format = NULL;
 
+	/* HACK: Mali needs GL_TEXTURE_EXTERNAL_OES for all imported dmabuf */
+	if (gr->is_mali_egl)
+		return GL_TEXTURE_EXTERNAL_OES;
+
 	wl_list_for_each(tmp, &gr->dmabuf_formats, link) {
 		if (tmp->format == attributes->format) {
 			format = tmp;
