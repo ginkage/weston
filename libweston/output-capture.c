@@ -395,6 +395,10 @@ weston_output_pull_capture_task(struct weston_output *output,
 	 * already sent.
 	 */
 	csi = capture_info_get_csi(ci, src);
+
+	if (!source_info_is_available(csi))
+		return NULL;
+
 	assert(csi->width == width);
 	assert(csi->height == height);
 	assert(csi->drm_format == format->format);
